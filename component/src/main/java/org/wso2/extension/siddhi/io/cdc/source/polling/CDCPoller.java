@@ -327,6 +327,9 @@ public class CDCPoller implements Runnable {
                         for (int i = 1; i <= metadata.getColumnCount(); i++) {
                             String key = metadata.getColumnName(i);
                             Object value = resultSet.getObject(key);
+                            if (value instanceof java.math.BigDecimal) {
+                                value = new Long(((java.math.BigDecimal) value).longValue());
+                            }
                             detailsMap.put(key.toLowerCase(Locale.ENGLISH), value);
                         }
                         lastReadPollingColumnValue = resultSet.getString(pollingColumn);
